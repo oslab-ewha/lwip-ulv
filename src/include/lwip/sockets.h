@@ -60,7 +60,7 @@ extern "C" {
 #endif
 
 /* sockaddr and pals include length fields */
-#define LWIP_SOCKET_HAVE_SA_LEN  1
+#define LWIP_SOCKET_HAVE_SA_LEN  0
 
 /* If your port already typedef's sa_family_t, define SA_FAMILY_T_DEFINED
    to prevent this code from redefining it. */
@@ -76,7 +76,9 @@ typedef u16_t in_port_t;
 #if LWIP_IPV4
 /* members are in network byte order */
 struct sockaddr_in {
+#if LWIP_SOCKET_HAVE_SA_LEN
   u8_t            sin_len;
+#endif
   sa_family_t     sin_family;
   in_port_t       sin_port;
   struct in_addr  sin_addr;
@@ -97,7 +99,9 @@ struct sockaddr_in6 {
 #endif /* LWIP_IPV6 */
 
 struct sockaddr {
+#if LWIP_SOCKET_HAVE_SA_LEN
   u8_t        sa_len;
+#endif
   sa_family_t sa_family;
   char        sa_data[14];
 };
