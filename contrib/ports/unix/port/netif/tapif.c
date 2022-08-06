@@ -109,6 +109,8 @@ static void tapif_input(struct netif *netif);
 static void tapif_thread(void *arg);
 #endif /* !NO_SYS */
 
+extern int ulv_open_devtap(void);
+
 /*-----------------------------------------------------------------------------------*/
 static void
 low_level_init(struct netif *netif)
@@ -136,7 +138,7 @@ low_level_init(struct netif *netif)
   /* device capabilities */
   netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_IGMP;
 
-  tapif->fd = open(DEVTAP, O_RDWR);
+  tapif->fd = ulv_open_devtap();
   LWIP_DEBUGF(TAPIF_DEBUG, ("tapif_init: fd %d\n", tapif->fd));
   if (tapif->fd == -1) {
 #ifdef LWIP_UNIX_LINUX
